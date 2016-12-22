@@ -1,6 +1,10 @@
 const restify = require('restify');
 const random = require("random-js")();
 
+const nconf = require('nconf');
+nconf.env();
+const redisHost=nconf.get('REDIS_HOST');
+
 const server = restify.createServer();
 server.get('/hello/:name', (req, res, next) => {
     let {
@@ -15,7 +19,8 @@ server.get('/hello/:name', (req, res, next) => {
     }
 
     res.send({
-        status: 'OK'
+        status: 'OK',
+        redisHost
     });
     next();
 });
